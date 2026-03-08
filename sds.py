@@ -71,3 +71,29 @@ class Postgrad(Student):
 
     def __str__(self):
         return f"{super().__str__()} - Thesis: '{self.thesis_title}'"
+
+class AcademicStaff:
+    def __init__(self, title, name, subject):
+        if not name:
+            raise ValueError("Missing name")
+        self.title = title
+        self.name = name
+        self.subject = subject
+
+    def __str__(self):
+        return f"{self.title} {self.name} ({self.subject})"
+
+class Module:
+    def __init__(self, module_code, name, academic, time_slot):
+        self.module_code = module_code
+        self.name = name
+        self.academic = academic
+        self.time_slot = time_slot
+        self.enrolled_students = []
+
+    def add_student(self, student):
+        if student not in self.enrolled_students:
+            self.enrolled_students.append(student)
+
+    def __str__(self):
+        return f"{self.module_code}: {self.name} at {self.time_slot}"
