@@ -53,3 +53,21 @@ class Student:
 
     def __str__(self):
         return f"{self.name} studies {self.degree} (Grade: {self.grade})"
+
+class Undergraduate(Student):
+    def __init__(self, name, degree, grade, year_of_study, year_in_industry):
+        super().__init__(name, degree, grade)
+        self.year_of_study = year_of_study
+        self.year_in_industry = year_in_industry
+        
+    def __str__(self):
+        industry_text = " [Year in Industry]" if self.year_in_industry else ""
+        return f"{super().__str__()} - Year {self.year_of_study}{industry_text}"
+
+class Postgrad(Student):
+    def __init__(self, name, degree, grade, thesis_title):
+        super().__init__(name, degree, grade)
+        self.thesis_title = thesis_title
+
+    def __str__(self):
+        return f"{super().__str__()} - Thesis: '{self.thesis_title}'"
