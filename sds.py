@@ -97,3 +97,51 @@ class Module:
 
     def __str__(self):
         return f"{self.module_code}: {self.name} at {self.time_slot}"
+
+
+# ==========================================
+# PART 2: File I/O & Fake Data Generation
+# ==========================================
+
+def generate_fake_files():
+    # 2. Using Faker to supercharge our mock data 
+    fake = Faker()
+    degrees = ["ECE", "BIO", "MECH", "EEE", "COMP"]
+    
+    if not os.path.exists("academics.csv"):
+        with open("academics.csv", "w", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Title", "Name", "Subject"])
+            writer.writerow(["Dr.", "Horne", "Biomedical Engineering"])
+            writer.writerow(["Prof.", "Smith", "Engineering"])
+            
+            # Let's generate 3 random academics using Faker
+            for _ in range(3):
+                writer.writerow(["Dr.", fake.last_name(), fake.job()])
+        print("Created academics.csv with fake data.")
+
+    if not os.path.exists("students.csv"):
+        with open("students.csv", "w", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Type", "Name", "Degree", "Grade", "Year", "Industry", "Thesis"])
+            
+            # One manual entry for our demo
+            writer.writerow(["Undergrad", "Alice", "ECE", 85, 2, "False", "N/A"])
+            
+            # Generate 10 random students
+            for _ in range(10):
+                name = fake.first_name()
+                degree = random.choice(degrees)
+                grade = random.randint(40, 100)
+                
+                # Randomly decide if student is Undergrad or Postgrad
+                student_type = random.choice(["Undergrad", "Postgrad"])
+                
+                if student_type == "Undergrad":
+                    year = random.randint(1, 4)
+                    yin = random.choice(["True", "False"])
+                    writer.writerow(["Undergrad", name, degree, grade, year, yin, "N/A"])
+                else:  # Postgrad
+                    thesis = fake.catch_phrase()  # Generate a random thesis title
+                    writer.writerow(["Postgrad", name, degree, grade, "N/A", "N/A", thesis])
+        print("Created students.csv with bulk fake data.")
