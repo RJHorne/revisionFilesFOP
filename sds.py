@@ -184,3 +184,58 @@ def load_students():
     except FileNotFoundError:
         pass
     return students
+
+# ==========================================
+# PART 3: Main Execution & Demonstration
+# ==========================================
+
+def main():
+    generate_fake_files()
+    
+    # sys.argv checks for command line arguments (From Lecture 7)
+    if len(sys.argv) < 2:
+        print("Too few arguments. Use 'add', 'list', 'academics', or 'demo'.")
+        sys.exit()
+        
+    mode = sys.argv[1].lower()
+    
+    if mode == "add":
+        name = input("Name: ")
+        degree = input("Degree (ECE, BIO, MECH, EEE, COMP): ")
+        grade = int(input("Grade: "))
+        
+        new_student = Student(name, degree, grade)
+        save_student(new_student)
+        
+        # 4. Cowsay callback from Lecture 7!
+        cowsay.cow(f"Success! Saved {name} to the database.")
+        
+    elif mode == "list":
+        print("\n--- Student Roster ---")
+        students = load_students()
+        for s in sorted(students, key=lambda s: s.name):
+            print(s)
+            
+    elif mode == "academics":
+        print("\n--- Academic Staff ---")
+        academics = load_academics()
+        for a in academics:
+            print(a)
+            
+    elif mode == "demo":
+        print("\n--- Running System Demonstration ---")
+        academics = load_academics()
+        students = load_students()
+        
+        dr_horne = next((a for a in academics if a.name == "Horne"), None)
+        alice = next((s for s in students if s.name == "Alice"), None)
+        
+        if dr_horne and alice:
+            fop_module = Module("EENG4101", "Fundamentals of Programming", dr_horne, "Monday 10:00 AM")
+            alice.enroll(fop_module)
+            alice.print_timetable()
+        else:
+            print("Required data missing for demo.")
+
+if __name__ == "__main__":
+    main()
