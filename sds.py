@@ -145,3 +145,42 @@ def generate_fake_files():
                     thesis = fake.catch_phrase()  # Generate a random thesis title
                     writer.writerow(["Postgrad", name, degree, grade, "N/A", "N/A", thesis])
         print("Created students.csv with bulk fake data.")
+
+def load_academics():
+    academics = []
+    try:
+        with open("academics.csv", "r") as file:
+            reader = csv.reader(file)
+            next(reader) 
+            for row in reader:
+                academics.append(AcademicStaff(row[0], row[1], row[2]))
+    except FileNotFoundError:
+        pass
+    return academics
+
+def save_student(student):
+    with open("students.csv", "a", newline='') as file:
+        writer = csv.writer(file)
+        if isinstance(student, Undergraduate):
+            writer.writerow(["Undergrad", student.name, student.degree, student.grade, student.year_of_study, student.year_in_industry])
+        elif isinstance(student, Postgrad):
+            writer.writerow(["Postgrad", student.name, student.degree, student.grade, "N/A", "N/A", student.thesis_title])
+        else:
+            writer.writerow(["Base", student.name, student.degree, student.grade, "N/A", "N/A", "N/A"])
+
+def load_students():
+    students = []
+    try:
+        with open("students.csv", "r") as file:
+            reader = csv.reader(file)
+            next(reader) 
+            for row in reader:
+                if row[0] == "Undergrad":
+                    students.append(Undergraduate(row[1], row[2], int(row[3]), int(row[4]), row[5] == 'True'))
+                elif row[0] == "Postgrad":
+                    students.append(Postgrad(row[1], row[2], int(row[3]), row[6]))
+                else:
+                    students.append(Student(row[1], row[2], int(row[3])))
+    except FileNotFoundError:
+        pass
+    return students
