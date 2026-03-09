@@ -1,0 +1,11 @@
+StudentName,ModuleCode,Session,Present
+Alice,EENG4101,1,True
+Alice,EENG4101,2,True
+Alice,EENG4101,3,False
+Alice,EENG4101,4,True
+Alice,EENG4101,5,False
+Alice,EENG4101,6,True
+Alice,EENG4101,7,False
+Alice,EENG4101,8,True
+Alice,EENG4101,9,True
+Alice,EENG4101,10,True
